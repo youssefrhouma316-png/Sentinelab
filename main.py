@@ -1,12 +1,10 @@
-def main():
-    print("================================")
-    print("       SENTINELLAB v0.1")
-    print("================================")
+from app.vulnerable_web import create_app
 
-    print("[+] Python environment: OK")
-    print("[+] Project structure: OK")
-    print("[+] SentinelLab initialized!")
-
+app = create_app()
 
 if __name__ == "__main__":
-    main()
+    app.run(
+        host="127.0.0.1",
+        port=5000,
+        debug=True
+    )
