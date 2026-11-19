@@ -1,0 +1,11 @@
+flask
+requests
+scapy
+panadas
+numpy
+scikit-learn
+streamlit
+joblib
+matplotlib
+pytest
+python-dotenv
