@@ -8,3 +8,5 @@ datasets/*.csv
 models/
 *.db
 logs/
+tests/
+pytest.ini

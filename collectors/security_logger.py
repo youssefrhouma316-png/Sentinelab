@@ -41,3 +41,20 @@ def log_http_event(
             file.write(json.dumps(event) + "\n")
 
     return event
+def log_auth_event(source_ip, success=False):
+    """Record authentication attempt metadata without credentials."""
+
+    event = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "event_type": "authentication",
+        "source_ip": source_ip,
+        "success": success,
+    }
+
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+    with _lock:
+        with LOG_FILE.open("a", encoding="utf-8") as file:
+            file.write(json.dumps(event) + "\n")
+
+    return event
