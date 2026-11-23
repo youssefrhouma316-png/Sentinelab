@@ -7,3 +7,4 @@ _pycache_/
 datasets/*.csv
 models/
 *.db
+logs/

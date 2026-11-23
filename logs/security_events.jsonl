@@ -1,0 +1,1 @@
+{"timestamp": "2026-11-23T12:54:05.913793+00:00", "event_type": "http_request", "method": "GET", "path": "/", "status_code": 200, "source_ip": "127.0.0.1", "user_agent": "SentinelLab-Test", "duration_ms": 12.5}
