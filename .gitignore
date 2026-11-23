@@ -7,6 +7,6 @@ _pycache_/
 datasets/*.csv
 models/
 *.db
-logs/
-tests/
+logs/*
+tests/*
 pytest.ini
