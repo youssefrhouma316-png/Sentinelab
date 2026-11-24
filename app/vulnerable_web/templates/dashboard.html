@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelLab - Security Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            background: #101827;
+            color: #e5e7eb;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            color: #38bdf8;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card, .panel {
+            background: #1e293b;
+            padding: 22px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+        }
+
+        .card h3 {
+            color: #94a3b8;
+            margin-top: 0;
+            font-size: 14px;
+        }
+
+        .number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .high {
+            color: #f87171;
+        }
+
+        .medium {
+            color: #fbbf24;
+        }
+
+        .low {
+            color: #4ade80;
+        }
+
+        .panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .panel h2 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            color: #94a3b8;
+        }
+
+        .empty {
+            color: #94a3b8;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 15px;
+            }
+
+            .panels {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <header>
+        <div>
+            <h1>SentinelLab</h1>
+            <p>Security Monitoring Dashboard</p>
+        </div>
+
+        <a href="/dashboard">Refresh Dashboard</a>
+    </header>
+
+    <section class="cards">
+
+        <div class="card">
+            <h3>Total Alerts</h3>
+            <div class="number">{{ total_alerts }}</div>
+        </div>
+
+        <div class="card">
+            <h3>High Severity</h3>
+            <div class="number high">
+                {{ severity_counts.get('high', 0) }}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Medium Severity</h3>
+            <div class="number medium">
+                {{ severity_counts.get('medium', 0) }}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Low Severity</h3>
+            <div class="number low">
+                {{ severity_counts.get('low', 0) }}
+            </div>
+        </div>
+
+    </section>
+
+    <section class="panels">
+
+        <div class="panel">
+            <h2>Alerts by Type</h2>
+
+            {% if type_counts %}
+                <table>
+                    <tr>
+                        <th>Detection Type</th>
+                        <th>Count</th>
+                    </tr>
+
+                    {% for alert_type, count in type_counts.items() %}
+                    <tr>
+                        <td>{{ alert_type }}</td>
+                        <td>{{ count }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p class="empty">No alerts detected yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="panel">
+            <h2>Security Status</h2>
+
+            <p>Total stored security alerts: {{ total_alerts }}</p>
+            <p>High severity: {{ severity_counts.get('high', 0) }}</p>
+            <p>Medium severity: {{ severity_counts.get('medium', 0) }}</p>
+            <p>Low severity: {{ severity_counts.get('low', 0) }}</p>
+        </div>
+
+    </section>
+
+    <section class="panel">
+        <h2>Recent Security Alerts</h2>
+
+        {% if recent_alerts %}
+            <table>
+                <tr>
+                    <th>Alert ID</th>
+                    <th>Type</th>
+                    <th>Source IP</th>
+                    <th>Severity</th>
+                    <th>Timestamp</th>
+                </tr>
+
+                {% for alert in recent_alerts %}
+                <tr>
+                    <td>{{ alert.get('alert_id', 'N/A') }}</td>
+                    <td>{{ alert.get('alert_type', 'unknown') }}</td>
+                    <td>{{ alert.get('source_ip', 'unknown') }}</td>
+                    <td class="{{ alert.get('severity', 'unknown') }}">
+                        {{ alert.get('severity', 'unknown') }}
+                    </td>
+                    <td>{{ alert.get('timestamp', 'N/A') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p class="empty">No security alerts available.</p>
+        {% endif %}
+    </section>
+
+</div>
+</body>
+</html>
