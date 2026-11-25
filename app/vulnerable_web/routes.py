@@ -1,6 +1,6 @@
 from collections import Counter
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, abort
 
 from collectors.security_logger import log_auth_event
 from response.alert_storage import load_alerts
@@ -61,4 +61,28 @@ def dashboard():
         severity_counts=severity_counts,
         type_counts=type_counts,
         recent_alerts=recent_alerts,
+    )
+
+@web.route("/alerts/<alert_id>")
+def alert_details(alert_id):
+    """
+    Display detailed information about a specific security alert.
+    """
+
+    alerts = load_alerts()
+
+    alert = next(
+        (
+            item for item in alerts
+            if item.get("alert_id") == alert_id
+        ),
+        None
+    )
+
+    if alert is None:
+        abort(404)
+
+    return render_template(
+        "alert_details.html",
+        alert=alert
     )

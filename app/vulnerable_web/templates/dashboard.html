@@ -219,7 +219,15 @@
 
                 {% for alert in recent_alerts %}
                 <tr>
-                    <td>{{ alert.get('alert_id', 'N/A') }}</td>
+                    <td>
+                        {% if alert.get('alert_id') %}
+                            <a href="{{ url_for('web.alert_details', alert_id=alert.get('alert_id')) }}">
+                                {{ alert.get('alert_id') }}
+                            </a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
                     <td>{{ alert.get('alert_type', 'unknown') }}</td>
                     <td>{{ alert.get('source_ip', 'unknown') }}</td>
                     <td class="{{ alert.get('severity', 'unknown') }}">

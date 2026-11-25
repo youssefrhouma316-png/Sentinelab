@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Investigation - SentinelLab</title>
+
+    <style>
+        body {
+            background: #111827;
+            color: #f9fafb;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .panel {
+            background: #1f2937;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field strong {
+            display: block;
+            color: #9ca3af;
+            margin-bottom: 6px;
+        }
+
+        pre {
+            background: #111827;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            color: #93c5fd;
+        }
+
+        .high {
+            color: #f87171;
+        }
+
+        .medium {
+            color: #fbbf24;
+        }
+
+        .low {
+            color: #4ade80;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <a href="/dashboard">← Back to Dashboard</a>
+
+        <h1>Alert Investigation</h1>
+
+        <div class="panel">
+
+            <div class="field">
+                <strong>Alert ID</strong>
+                {{ alert.alert_id }}
+            </div>
+
+            <div class="field">
+                <strong>Alert Type</strong>
+                {{ alert.alert_type }}
+            </div>
+
+            <div class="field">
+                <strong>Source IP</strong>
+                {{ alert.source_ip }}
+            </div>
+
+            <div class="field">
+                <strong>Severity</strong>
+                <span class="{{ alert.severity }}">
+                    {{ alert.severity | upper }}
+                </span>
+            </div>
+
+            <div class="field">
+                <strong>Timestamp</strong>
+                {{ alert.timestamp }}
+            </div>
+
+            <div class="field">
+                <strong>Description</strong>
+                {{ alert.description }}
+            </div>
+
+            <div class="field">
+                <strong>Evidence</strong>
+                <pre>{{ alert.evidence | tojson(indent=4) }}</pre>
+            </div>
+
+            {% if alert.fingerprint %}
+            <div class="field">
+                <strong>Fingerprint</strong>
+                {{ alert.fingerprint }}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>
